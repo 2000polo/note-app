@@ -1,18 +1,28 @@
 import express from 'express';
-import notesRoutes from './routes/notesRoutes.js';
-import { connectDB } from './config/db.js';
 import dotenv from 'dotenv';
+import cors from 'cors';
+import cookieParser from 'cookie-parser';
+
+import notesRoutes from './routes/notesRoutes.js';
+import authRoutes from './routes/authRoutes.js';
+import { connectDB } from './config/db.js';
 import rateLimitter from './middleware/rateLimitter.js';
 
 dotenv.config();
 
 const app = express();
 
+app.use(cors({
+  origin: 'http://localhost:5173',
+  credentials: true,
+}))
 // middleware
 app.use(express.json());
+app.use(cookieParser());
 // rate limiter middleware
 app.use(rateLimitter);
 
+app.use('/api/v1/auth', authRoutes);
 app.use('/api/v1/notes', notesRoutes);
 
 const startServer = async () => {
