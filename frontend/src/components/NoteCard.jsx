@@ -36,7 +36,7 @@ const NoteCard = ({note, setNotes}) => {
             style={{background:colors[Math.floor(Math.random() * 4)]}}
         >
             <div className='flex flex-col justify-center mb-4'>
-                <div className='text-white font-medium uppercase mb-2'>{note?.title}</div>
+                <div className='text-white font-medium uppercase mb-2 text-[12px] sm:text-base line-clamp-2'>{note?.title}</div>
                 <div className="text-xs font-light text-white opacity-80 line-clamp-3">{ note?.description }</div>
             </div>
             <div className="list-actions flex gap-1 mt-auto items-center">

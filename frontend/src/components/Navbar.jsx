@@ -46,7 +46,7 @@ const Navbar = ({ notesCount }) => {
     };
 
     return (
-        <header className="sticky top-0 z-50 flex justify-between items-center gap-2 md:gap-3 py-2 bg-base-100 shadow-2xl">
+        <header className="sticky top-0 z-50 flex justify-between items-center gap-2 md:gap-3 py-4 bg-base-100 shadow-2xl">
             {/* Logo */}
             <div className="logo-wrapper h-fit flex-1 flex items-center gap-2">
                 <div className="icon p-2 bg-purple-700 rounded-2xl">
@@ -54,7 +54,7 @@ const Navbar = ({ notesCount }) => {
                 </div>
                 <span
                     onClick={() => navigate("/")}
-                    className="text-white font-bold text-2xl cursor-pointer"
+                    className="text-white font-bold text-2xl cursor-pointer select-none"
                 >
                      NotesApp
                 </span>
@@ -64,10 +64,9 @@ const Navbar = ({ notesCount }) => {
             <div className="create-note-btn">
                 <button
                     onClick={navigateToCreateNote}
-                    className="btn xs:btn-square rounded-2xl bg-purple-700"
+                    className="btn btn-square rounded-2xl bg-purple-700 border-0"
                 >
-                    <DiamondPlus />
-                    <span className="hidden md:block">Add new note</span>
+                    <DiamondPlus size={20} />
                 </button>
             </div>
 

@@ -62,7 +62,7 @@ const HomePage = () => {
             {
                 notes?.length > 0 && !isRateLimited &&
                 <>
-                    <section className='mt-8'>
+                    <section className='mt-4'>
                         <h1 className='text-xl md:text-4xl text-white font-medium flex flex-col'>
                             <span>{greeting},</span>
                             <span>{user?.name || 'there'}. 👋</span>
