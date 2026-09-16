@@ -8,6 +8,7 @@ import UpdatePage from './pages/UpdatePage'
 import LoginPage from './pages/LoginPage'
 import RegisterPage from './pages/RegisterPage'
 import { fetchCurrentUser } from './store/authSlice'
+import AppLayout from './layout/AppLayout'
 
 function App() {
   const dispatch = useDispatch()
@@ -29,10 +30,12 @@ function App() {
     <Routes>
       <Route path='/login' element={isAuthenticated ? <Navigate to='/' replace /> : <LoginPage />} />
       <Route path='/register' element={isAuthenticated ? <Navigate to='/' replace /> : <RegisterPage />} />
-      <Route path='/' element={isAuthenticated ? <HomePage /> : <Navigate to='/login' replace />} />
-      <Route path='/create' element={isAuthenticated ? <CreatePage /> : <Navigate to='/login' replace />} />
-      <Route path='/note/:id' element={isAuthenticated ? <NoteDetailPage /> : <Navigate to='/login' replace />} />
-      <Route path='/note/update/:id' element={isAuthenticated ? <UpdatePage /> : <Navigate to='/login' replace />} />
+      <Route path='/' element={<AppLayout />}>
+        <Route path='/' element={isAuthenticated ? <HomePage /> : <Navigate to='/login' replace />} />
+        <Route path='/create' element={isAuthenticated ? <CreatePage /> : <Navigate to='/login' replace />} />
+        <Route path='/note/:id' element={isAuthenticated ? <NoteDetailPage /> : <Navigate to='/login' replace />} />
+        <Route path='/note/update/:id' element={isAuthenticated ? <UpdatePage /> : <Navigate to='/login' replace />} />
+      </Route>
     </Routes>
   )
 }

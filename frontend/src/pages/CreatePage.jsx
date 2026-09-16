@@ -48,12 +48,12 @@ const CreatePage = () => {
   return (
     <div className="mx-2 lg:mx-auto max-w-6xl">
 
-      <header className="flex justify-between items-center my-2 bg-white/10 rounded-xl p-2">
+      {/* <header className="flex justify-between items-center my-2 bg-white/10 rounded-xl p-2">
         <Link to='/' className="btn btn-link">
           <ArrowLeft />
           <span>Back to home</span>
         </Link>
-      </header>
+      </header> */}
 
       <div className="card bg-base-100 border border-white/10 max-w-2xl mx-auto p-4 mt-8">
           <h2 className="card-title mb-4 text-white">Add New Note</h2>

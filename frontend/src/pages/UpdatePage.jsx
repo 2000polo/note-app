@@ -73,9 +73,9 @@ const UpdatePage = () => {
     return (
         <>
             <div className="max-w-2xl mx-auto px-4 py-8"> 
-                <button onClick={() => navigate(-1)} className="btn btn-ghost mb-6" > 
+                {/* <button onClick={() => navigate(-1)} className="btn btn-ghost mb-6" > 
                     <ArrowLeft size={18} /> Back 
-                </button> 
+                </button>  */}
                 <div className="card bg-base-100 shadow-xl border border-base-300">
                     <div className="card-body"> 
                         <h1 className="text-2xl font-bold mb-4"> Edit Note </h1> 

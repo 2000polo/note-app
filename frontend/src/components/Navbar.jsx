@@ -1,22 +1,33 @@
-import React from "react";  
+import React from "react";
+
 import { useDispatch, useSelector } from "react-redux";
-import { LogOut } from "lucide-react";
+
+import { DiamondPlus, Lightbulb, LogOut } from "lucide-react";
+
 import toast from "react-hot-toast";
+
 import { logoutUser } from "../store/authSlice";
 
+import { useNavigate } from "react-router";
+
 const getInitials = (name = "") => {
-    return name
-        .split(" ")
-        .filter(Boolean)
-        .map((part) => part[0])
-        .join("")
-        .slice(0, 2)
-        .toUpperCase() || "U";
+    return (
+        name
+            .split(" ")
+            .filter(Boolean)
+            .map((part) => part[0])
+            .join("")
+            .slice(0, 2)
+            .toUpperCase() || "U"
+    );
 };
 
 const Navbar = ({ notesCount }) => {
     const dispatch = useDispatch();
+
     const { user } = useSelector((state) => state.auth);
+
+    const navigate = useNavigate();
 
     const handleLogout = async () => {
         const result = await dispatch(logoutUser());
@@ -28,33 +39,94 @@ const Navbar = ({ notesCount }) => {
 
         toast.success("Logged out successfully");
     };
-    
+
+    const navigateToCreateNote = (e) => {
+        e.preventDefault();
+        navigate("/create");
+    };
+
     return (
-        <header className="flex justify-between items-center my-2  rounded-xl py-2">
-            <div className="logo-wrapper h-fit">
-                <span className="text-white font-bold text-2xl">NotesApp</span>
+        <header className="sticky top-0 z-50 flex justify-between items-center gap-2 md:gap-3 py-2 bg-base-100 shadow-2xl">
+            {/* Logo */}
+            <div className="logo-wrapper h-fit flex-1 flex items-center gap-2">
+                <div className="icon p-2 bg-purple-700 rounded-2xl">
+                    <span><Lightbulb /></span>
+                </div>
+                <span
+                    onClick={() => navigate("/")}
+                    className="text-white font-bold text-2xl cursor-pointer"
+                >
+                     NotesApp
+                </span>
             </div>
 
-            <div className="flex gap-2 items-center">
-                <div className="avatar avatar-placeholder">
-                    <div className="bg-neutral text-neutral-content w-12 rounded-full">
-                        <span>{getInitials(user?.name)}</span>
-                    </div>
-                    
-                </div>
-                <div className="flex flex-col justify-center">
-                    <span className="text-white text-sm font-bold tracking-tight">{user?.name}</span>
-                    {typeof notesCount === "number" && (
-                        <span className="text-xs">{notesCount} notes</span>
-                    )}
-                </div>
-                <button onClick={handleLogout} className="btn btn-ghost btn-sm ml-2" type="button">
-                    <LogOut size={16} />
-                    Logout
+            {/* Create Note */}
+            <div className="create-note-btn">
+                <button
+                    onClick={navigateToCreateNote}
+                    className="btn xs:btn-square rounded-2xl bg-purple-700"
+                >
+                    <DiamondPlus />
+                    <span className="hidden md:block">Add new note</span>
                 </button>
             </div>
-        </header>
-    )
-}
 
-export default Navbar
+            {/* User */}
+            <div className="flex gap-2 items-center">
+                <div className="dropdown dropdown-end">
+                    <div
+                        tabIndex={0}
+                        role="button"
+                        className="cursor-pointer"
+                    >
+                        <div className="avatar avatar-placeholder">
+                            <div className="bg-sky-500 text-neutral-content w-10 rounded-2xl">
+                                <span>{getInitials(user?.name)}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <ul
+                        tabIndex={-1}
+                        className="menu dropdown-content bg-base-200 rounded-2xl z-50 mt-4 p-2 shadow-sm"
+                    >
+                        <li>
+                            <div className="flex rounded-2xl">
+                                <div className="avatar avatar-placeholder">
+                                    <div className="bg-neutral text-neutral-content w-10 rounded-2xl">
+                                        <span>
+                                            {getInitials(user?.name)}
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div className="flex flex-col justify-center">
+                                    <span className="text-white text-sm font-bold tracking-tight">
+                                        {user?.name}
+                                    </span>
+
+                                    <span className="text-xs">
+                                        {user?.email}
+                                    </span>
+                                </div>
+                            </div>
+                        </li>
+
+                        <li>
+                            <button
+                                onClick={handleLogout}
+                                className="rounded-2xl"
+                                type="button"
+                            >
+                                <LogOut size={16} />
+                                Logout
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </header>
+    );
+};
+
+export default Navbar;

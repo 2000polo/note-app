@@ -32,12 +32,12 @@ const NoteCard = ({note, setNotes}) => {
     return (
         <Link 
             to={`/note/${note?._id}`}
-            className="flex flex-col border-b border-white/10 rounded-3xl p-6"
+            className="flex flex-col border-b border-white/10 rounded-3xl p-4 md:p-6 md:min-h-[235px]"
             style={{background:colors[Math.floor(Math.random() * 4)]}}
         >
             <div className='flex flex-col justify-center mb-4'>
                 <div className='text-white font-medium uppercase mb-2'>{note?.title}</div>
-                <div className="text-xs font-light text-white opacity-80">{ note?.description }</div>
+                <div className="text-xs font-light text-white opacity-80 line-clamp-3">{ note?.description }</div>
             </div>
             <div className="list-actions flex gap-1 mt-auto items-center">
                 <span className="text-xs font-light text-white opacity-80 italic flex-1">{formatDate(note?.createdAt)}</span>
