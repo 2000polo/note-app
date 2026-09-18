@@ -58,13 +58,24 @@ const NoteDetailPage = () => {
         );
     }
 
-    const deleteHandler = () => {
+    const navigateToUpdateNote = (e) => {
+        e.preventDefault();
+        navigate(`/note/update/${note?._id}`)
+    }
+
+    const deleteHandler = async (e, id) => {
+        e.preventDefault();
+
+        try{
+            await api.delete(`/notes/${id}`);
+            toast.success("Successfully deleted the note!");
+            setNotes((prev) => prev?.filter((note) => note?._id !== id))
+        }catch{
+            toast.error("Failed to delete the note!");
+        }
 
     }
 
-    const navigateToUpdateNote = () => {
-
-    }
 
 
     return (
@@ -97,7 +108,10 @@ const NoteDetailPage = () => {
                         </h1>
 
                         <div className="list-actions flex gap-3 mt-3 items-center">
-                            <span className="text-xs font-light text-white opacity-80 italic flex-1">{formatDate(note?.updatedAt)} - Last updated on: {formatDate(note?.updatedAt)}</span>
+                            <div className="flex flex-1 flex-col">
+                                <span className="text-xs font-light text-white opacity-80 italic flex-1">Created on: {formatDate(note?.createdAt)}</span>
+                                <span className="text-xs font-light text-white opacity-80 italic flex-1">Last updated on: {formatDate(note?.updatedAt)}</span>
+                            </div>
                             <button onClick={navigateToUpdateNote} className="btn btn-circle bg-black">
                                 <Pencil className='text-white' size={14} />
                             </button>

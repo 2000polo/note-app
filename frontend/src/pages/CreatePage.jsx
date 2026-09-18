@@ -1,105 +1,197 @@
-import { useState } from "react"
-import { ArrowLeft, Plus } from "lucide-react"
-import { Link, useNavigate } from "react-router"
-import toast, { Toaster } from "react-hot-toast"
-import api from "../../lib/axios"
+import { useState } from "react";
+import { ArrowLeft, Check, LoaderCircle } from "lucide-react";
+import { Link, useNavigate } from "react-router";
+import toast from "react-hot-toast";
+import api from "../../lib/axios";
 
 const CreatePage = () => {
+    const navigate = useNavigate();
 
-  const navigate = useNavigate()
-  const intialFormData = {
-    title: '',
-    description: ''
-  }
+    const initialFormData = {
+        title: "",
+        description: "",
+    };
 
-  const [ formData, setFormData ] = useState(intialFormData);
-  const [ isLoading, setIsLoading ] = useState(false)
+    const [formData, setFormData] = useState(initialFormData);
+    const [isLoading, setIsLoading] = useState(false);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    console.log("name, vakue", name, value)
+    const handleChange = (e) => {
+        const { name, value } = e.target;
 
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value
-    }))
-  }
+        setFormData((prev) => ({
+            ...prev,
+            [name]: value,
+        }));
+    };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+    const handleSubmit = async (e) => {
+        e.preventDefault();
 
-    if(!formData?.title?.trim() && !formData?.description?.trim()){
-      toast.error("All form fields are reuired")
-      return 
-    }
+        if (!formData.title.trim() || !formData.description.trim()) {
+            toast.error("Title and description are required");
+            return;
+        }
 
-    try {
-      setIsLoading(true);
-      await api.post('/notes', formData);
-      navigate('/')
-      toast.success('Successfully created the note')
-    } catch (error) {
-      toast.error('failed to create note')
-    }finally{
-      setIsLoading(false)
-    }
-  }
+        try {
+            setIsLoading(true);
 
-  return (
-    <div className="mx-2 lg:mx-auto max-w-6xl">
+            await api.post("/notes", formData);
 
-      {/* <header className="flex justify-between items-center my-2 bg-white/10 rounded-xl p-2">
-        <Link to='/' className="btn btn-link">
-          <ArrowLeft />
-          <span>Back to home</span>
-        </Link>
-      </header> */}
+            toast.success("Successfully created the note");
+            navigate("/");
+        } catch (error) {
+            toast.error("Failed to create note");
+        } finally {
+            setIsLoading(false);
+        }
+    };
 
-      <div className="card bg-base-100 border border-white/10 max-w-2xl mx-auto p-4 mt-8">
-          <h2 className="card-title mb-4 text-white">Add New Note</h2>
+    return (
+        <div className="lg:mx-auto max-w-6xl pb-24">
 
-          <form onSubmit={handleSubmit} className="space-y-4">
-              {/* Title */}
-              <div className="form-control">
-                  <label className="label">
-                      <span className="label-text text-white">Title</span>
-                  </label>
+            {/* Back button */}
+            <Link
+                to="/"
+                className="
+                    inline-flex
+                    items-center
+                    gap-2
+                    mt-4
+                    text-sm
+                    text-white/60
+                    hover:text-white
+                    transition
+                "
+            >
+                <ArrowLeft size={18} />
+                <span>Back to home</span>
+            </Link>
 
-                  <input
-                      onChange={handleChange}
-                      type="text"
-                      placeholder="Enter note title"
-                      className="input input-bordered w-full"
-                      name="title"
-                  />
-              </div>
+            {/* Note Editor */}
+            <form onSubmit={handleSubmit}>
 
-              {/* Content */}
-              <div className="form-control">
-                  <label className="label">
-                      <span className="label-text text-white">Content</span>
-                  </label>
+                <div className="rounded-3xl mt-8 shadow-xl">
+                    <div className="card-body p-0">
 
-                  <textarea
-                      onChange={handleChange}
-                      placeholder="Write your note..."
-                      className="textarea textarea-bordered w-full h-40"
-                      name="description"
-                  />
-              </div>
+                        {/* Title */}
+                        <input
+                            type="text"
+                            name="title"
+                            value={formData.title}
+                            onChange={handleChange}
+                            autoFocus
+                            placeholder="Enter heading..."
+                            className="
+                                w-full
+                                bg-transparent
+                                border-none
+                                outline-none
+                                text-2xl
+                                md:text-6xl
+                                font-bold
+                                text-white
+                                placeholder:text-white/30
+                                p-0
+                            "
+                        />
 
-              {/* Submit */}
-              <button
-                  type="submit"
-                  className="btn btn-primary w-full"
-              >
-                  {isLoading ? <span class="loading loading-spinner"></span> : <Plus />}
-                  Add Note
-              </button>
-          </form>
-      </div>
-  </div>
-  )
-}
+                        {/* Description */}
+                        <textarea
+                            name="description"
+                            value={formData.description}
+                            onChange={handleChange}
+                            placeholder="Start writing your note..."
+                            className="
+                                w-full
+                                min-h-[300px]
+                                mt-4
+                                bg-transparent
+                                border-none
+                                outline-none
+                                resize-none
+                                text-white
+                                leading-relaxed
+                                placeholder:text-white/30
+                                p-0
+                            "
+                        />
 
-export default CreatePage
+                        {/* Divider */}
+                        <div className="divider"></div>
+
+                    </div>
+                </div>
+
+                {/* Fixed Bottom Actions */}
+                <div
+                    className="
+                        fixed
+                        bottom-0
+                        left-0
+                        right-0
+                        z-50
+                        border-t
+                        border-white/10
+                        bg-base-100/95
+                        backdrop-blur-md
+                        px-4
+                        py-3
+                    "
+                >
+                    <div
+                        className="
+                            mx-auto
+                            max-w-6xl
+                            flex
+                            justify-end
+                            items-center
+                            gap-3
+                        "
+                    >
+                        {/* Cancel */}
+                        <Link
+                            to="/"
+                            className="
+                                btn
+                                btn-ghost
+                                text-white
+                            "
+                        >
+                            Cancel
+                        </Link>
+
+                        {/* Save */}
+                        <button
+                            type="submit"
+                            disabled={isLoading}
+                            className="
+                                btn
+                                btn-primary
+                                gap-2
+                            "
+                        >
+                            {isLoading ? (
+                                <>
+                                    <LoaderCircle
+                                        size={16}
+                                        className="animate-spin"
+                                    />
+                                    Saving...
+                                </>
+                            ) : (
+                                <>
+                                    <Check size={16} />
+                                    Save Note
+                                </>
+                            )}
+                        </button>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    );
+};
+
+export default CreatePage;
+
