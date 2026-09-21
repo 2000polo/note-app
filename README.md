@@ -81,8 +81,8 @@ Read notes uninterrupted or edit titles and markdown details on the fly.
     <td width="50%"><b>Edit Note View</b></td>
   </tr>
   <tr>
-    <td><img src="./assets/detail.png" alt="Detail View"></td>
-    <td><img src="./assets/edit.png" alt="Edit View"></td>
+    <td><img src="./assets/note-page.png" alt="Detail View"></td>
+    <td><img src="./assets/edit-note.png" alt="Edit View"></td>
   </tr>
 </table>
 
@@ -90,7 +90,7 @@ Read notes uninterrupted or edit titles and markdown details on the fly.
 
 ### 4. Note Creation
 Clean canvas screen with simple bottom control actions to post ideas directly to MongoDB.
-<img src="./assets/add.png" alt="Add Note Page" width="100%">
+<img src="./assets/add-note.png" alt="Add Note Page" width="100%">
 
 </details>
 
